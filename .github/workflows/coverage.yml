@@ -30,11 +30,11 @@ jobs:
 
       - name: Install packages
         run: |
-          pip install --upgrade pip
-          pip install -r requirements/default.txt -r requirements/test.txt
-          pip install -r requirements/extra.txt
-          pip install .
-          pip list
+          pip install --upgrade uv
+          uv pip install --system -r requirements/default.txt -r requirements/test.txt
+          uv pip install --system -r requirements/extra.txt
+          uv pip install --system .
+          uv pip list
 
       - name: Test NetworkX
         run: |

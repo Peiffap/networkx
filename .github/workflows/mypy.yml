@@ -23,10 +23,10 @@ jobs:
 
       - name: Install packages
         run: |
-          pip install --upgrade pip
-          pip install -r requirements/developer.txt
-          pip install -e .
-          pip list
+          pip install --upgrade uv
+          uv pip install --system -r requirements/developer.txt
+          uv pip install --system -e .
+          uv pip list
 
       - name: run mypy
         run: mypy -p networkx

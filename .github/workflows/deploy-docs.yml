@@ -26,21 +26,21 @@ jobs:
 
       - name: Install packages
         run: |
-          pip install --upgrade pip
-          pip install -r requirements/default.txt -r requirements/test.txt
-          pip install -r requirements/extra.txt
-          pip install -r requirements/example.txt
-          pip install -U -r requirements/doc.txt
-          pip install .
+          pip install --upgrade uv
+          uv pip install --system -r requirements/default.txt -r requirements/test.txt
+          uv pip install --system -r requirements/extra.txt
+          uv pip install --system -r requirements/example.txt
+          uv pip install --system -U -r requirements/doc.txt
+          uv pip install --system .
           # Install trusted backends, but not their dependencies.
           # We only need to use the "networkx.backend_info" entry-point.
           # This is the nightly wheel for nx-cugraph.
-          pip install nx-cugraph-cu11 --extra-index-url https://pypi.anaconda.org/rapidsai-wheels-nightly/simple --no-deps
+          uv pip install --system nx-cugraph-cu11 --extra-index-url https://pypi.anaconda.org/rapidsai-wheels-nightly/simple --no-deps
           # Development version of GraphBLAS backend
-          pip install git+https://github.com/python-graphblas/graphblas-algorithms.git@main --no-deps
+          uv pip install --system git+https://github.com/python-graphblas/graphblas-algorithms.git@main --no-deps
           # Development version of nx-parallel backend
-          pip install git+https://github.com/networkx/nx-parallel.git@main --no-deps
-          pip list
+          uv pip install --system git+https://github.com/networkx/nx-parallel.git@main --no-deps
+          uv pip list
 
       # To set up a cross-repository deploy key:
       # 1. Create a key pair:

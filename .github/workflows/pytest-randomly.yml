@@ -17,11 +17,11 @@ jobs:
 
       - name: Install packages
         run: |
-          pip install --upgrade pip
-          pip install -r requirements/default.txt -r requirements/test.txt
-          pip install pytest-randomly
-          pip install .
-          pip list
+          pip install --upgrade uv
+          uv pip install --system -r requirements/default.txt -r requirements/test.txt
+          uv pip install --system pytest-randomly
+          uv pip install --system .
+          uv pip list
 
       - name: Run tests
         run: pytest --doctest-modules --durations=10 --pyargs networkx

@@ -20,11 +20,11 @@ jobs:
 
       - name: Install packages
         run: |
-          pip install --upgrade pip
-          pip install -U --pre --extra-index-url https://pypi.org/simple -i https://pypi.anaconda.org/scientific-python-nightly-wheels/simple -r requirements/default.txt
-          pip install --pre -r requirements/test.txt
-          pip install .
-          pip list
+          pip install --upgrade uv
+          uv pip install  --system -U --pre --i https://pypi.org/simple --extra-index-url https://pypi.anaconda.org/scientific-python-nightly-wheels/simple -r requirements/default.txt
+          uv pip install --system --pre -r requirements/test.txt
+          uv pip install --system .
+          uv pip list
 
       - name: Test NetworkX
         run: |

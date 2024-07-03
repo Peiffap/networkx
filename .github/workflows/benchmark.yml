@@ -71,10 +71,10 @@ jobs:
 
       - name: Install packages
         run: |
-          pip install --upgrade pip
-          pip install -r requirements/default.txt
-          pip install .
-          pip list
+          pip install --upgrade uv
+          uv pip install --system -r requirements/default.txt
+          uv pip install --system .
+          uv pip list
 
       - name: Run benchmarks
         shell: bash -l {0}
@@ -84,7 +84,7 @@ jobs:
           ASV_SKIP_SLOW: 1
         run: |
           set -x
-          python -m pip install asv virtualenv packaging
+          uv pip install --system asv virtualenv packaging
           cd benchmarks/
 
           # ID this runner
