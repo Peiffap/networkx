@@ -73,42 +73,35 @@ def strongly_connected_components(G):
     """
     preorder = {}
     lowlink = {}
-    scc_found = set()
+    todo = set(G)
     scc_queue = []
     i = 0  # Preorder counter
     neighbors = {v: iter(G._adj[v]) for v in G}
-    for source in G:
-        if source not in scc_found:
-            queue = [source]
-            while queue:
-                v = queue[-1]
-                if v not in preorder:
-                    i = i + 1
-                    preorder[v] = i
-                done = True
-                for w in neighbors[v]:
-                    if w not in preorder:
-                        queue.append(w)
-                        done = False
-                        break
-                if done:
-                    lowlink[v] = preorder[v]
-                    for w in G._adj[v]:
-                        if w not in scc_found:
-                            if preorder[w] > preorder[v]:
-                                lowlink[v] = min([lowlink[v], lowlink[w]])
-                            else:
-                                lowlink[v] = min([lowlink[v], preorder[w]])
-                    queue.pop()
-                    if lowlink[v] == preorder[v]:
-                        scc = {v}
-                        while scc_queue and preorder[scc_queue[-1]] > preorder[v]:
-                            k = scc_queue.pop()
-                            scc.add(k)
-                        scc_found.update(scc)
-                        yield scc
-                    else:
-                        scc_queue.append(v)
+    while todo:
+        queue = [next(iter(todo))]
+        while queue:
+            v = queue[-1]
+            if v not in preorder:
+                i += 1
+                preorder[v] = i
+            ne = next((w for w in neighbors[v] if w not in preorder), None)
+            if ne is not None:
+                queue.append(ne)
+                continue
+            lowlink[v] = preorder[v]
+            for w in G._adj[v].keys() & todo:
+                lowlink[v] = min(
+                    lowlink[v], lowlink[w] if preorder[w] > preorder[v] else preorder[w]
+                )
+            queue.pop()
+            if lowlink[v] != preorder[v]:
+                scc_queue.append(v)
+                continue
+            scc = {v}
+            while scc_queue and preorder[scc_queue[-1]] > preorder[v]:
+                scc.add(scc_queue.pop())
+            todo -= scc
+            yield scc
 
 
 @not_implemented_for("undirected")
