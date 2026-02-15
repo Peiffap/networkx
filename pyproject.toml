@@ -348,9 +348,9 @@ docs-build = { cmd = "make -C doc/ html", env = { DISPLAY = ":99" } }
 install-backend-stubs = """pip install --no-deps --pre \
   --extra-index-url https://pypi.anaconda.org/rapidsai-wheels-nightly/simple \
   nx-cugraph-cu11 \
-  git+https://github.com/python-graphblas/graphblas-algorithms.git@main \
-  git+https://github.com/networkx/nx-parallel.git@main \
-  git+https://github.com/awslabs/nx-neptune.git@main"""
+  "graphblas-algorithms @ git+https://github.com/python-graphblas/graphblas-algorithms.git@main" \
+  "nx-parallel @ git+https://github.com/networkx/nx-parallel.git@main" \
+  "nx-neptune @ git+https://github.com/awslabs/nx-neptune.git@main" """
 
 [tool.pixi.feature.prerelease.tasks]
 install-prerelease = "pip install --upgrade pip && pip install --pre '.[default,test]' && pip list"
