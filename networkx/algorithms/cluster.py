@@ -87,10 +87,11 @@ def triangles(G, nodes=None):
     for node1, neighbors in later_nbrs.items():
         for node2 in neighbors:
             third_nodes = neighbors & later_nbrs[node2]
-            m = len(third_nodes)
-            triangle_counts[node1] += m
-            triangle_counts[node2] += m
-            triangle_counts.update(third_nodes)
+            if third_nodes:
+                m = len(third_nodes)
+                triangle_counts[node1] += m
+                triangle_counts[node2] += m
+                triangle_counts.update(third_nodes)
 
     return dict(triangle_counts)
 
